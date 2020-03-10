@@ -1,4 +1,5 @@
 from src.room import Room
+from src.player import Player
 
 # Declare all the rooms
 
@@ -50,8 +51,38 @@ room['treasure'].s_to = room['narrow']
 #
 # If the user enters "q", quit the game.
 
+
+def moves(user, move):
+    if move == 'n':
+        return user.room.n_to
+    elif move == 's':
+        return user.room.s_to
+    elif move == 'w':
+        return user.room.w_to
+    else:
+        return user.room.e_to
+
+
 def main():
-    pass
+    player_name = input('Please enter your name-> ')
+    player = Player(player_name, room['outside'])
+    print(f'Welcome {player_name} to the Dungeon Crawl')
+    while True:
+        # Print
+        print(f'{player.room.name} - {player.room.description}')
+        cmd = input('-> ')
+        if cmd == 'q':
+            print('Come back again, you hear!')
+            break
+        elif cmd == 'n' or cmd == 's' or cmd == 'w' or cmd == 'e':
+            if moves(player, cmd) is None:
+                print('You hit a wall, move not allowed, -50dkp')
+                continue
+            else:
+                player.room = moves(player, cmd)
+        else:
+            print('Please enter a valid direction: n,s,w,e')
+            continue
 
 
 if __name__ == '__main__':
