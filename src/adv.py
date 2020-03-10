@@ -1,5 +1,5 @@
-from src.room import Room
 from src.player import Player
+from src.room import Room
 
 # Declare all the rooms
 
@@ -51,6 +51,26 @@ room['treasure'].s_to = room['narrow']
 #
 # If the user enters "q", quit the game.
 
+def pretty_print(fn):
+    def wrapper(cur_room):
+        middle_line = len(f'{cur_room}')
+        if middle_line > 60:
+            middle_line = 60
+        top_line = ''
+        for letter in range(middle_line):
+            top_line = top_line + '*'
+
+        print(top_line)
+        print(f'{cur_room}')
+        print(top_line)
+
+    return wrapper
+
+
+@pretty_print
+def print_location(cur_room):
+    pass
+
 
 def moves(user, move):
     if move == 'n':
@@ -69,7 +89,7 @@ def main():
     print(f'Welcome {player_name} to the Dungeon Crawl')
     while True:
         # Print
-        print(f'{player.room.name} - {player.room.description}')
+        print_location(player.room)
         cmd = input('-> ')
         if cmd == 'q':
             print('Come back again, you hear!')
