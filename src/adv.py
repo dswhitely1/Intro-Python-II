@@ -1,9 +1,9 @@
+from random import choice
+
+from src.game import Game
+from src.item import items
 from src.player import Player
 from src.room import Room
-from src.item import Item, items
-from src.utils import pretty_print
-from src.game import Game
-from random import choice, randint
 
 # Declare all the rooms
 
@@ -37,19 +37,17 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-
 room_choices = ['outside', 'foyer', 'overlook', 'narrow', 'treasure']
 item_choices = []
 
 for index in items:
     item_choices.append(index)
 
-print(item_choices)
-
 for index in range(20):
     room_choice = choice(room_choices)
     item_choice = choice(item_choices)
     room[room_choice].add_items_to_room(items[item_choice])
+
 
 #
 # Main
