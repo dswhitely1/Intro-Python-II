@@ -10,6 +10,18 @@ class Room:
         self.n_to = None
         self.name = name
         self.description = description
+        self.items = []
 
     def __str__(self):
         return f'{self.name} - {self.description}'
+
+    def __repr__(self):
+        return f'{self.name} - {self.description}'
+
+    def print_items(self):
+        print('--- Current Items in Room ---')
+        for item in self.items:
+            print(item)
+
+    def add_items_to_room(self, item):
+        self.items.append(item)

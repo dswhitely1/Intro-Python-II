@@ -1,6 +1,9 @@
 from src.player import Player
 from src.room import Room
+from src.item import Item, items
 from src.utils import pretty_print
+from src.game import Game
+from random import choice, randint
 
 # Declare all the rooms
 
@@ -35,6 +38,19 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 
+room_choices = ['outside', 'foyer', 'overlook', 'narrow', 'treasure']
+item_choices = []
+
+for index in items:
+    item_choices.append(index)
+
+print(item_choices)
+
+for index in range(20):
+    room_choice = choice(room_choices)
+    item_choice = choice(item_choices)
+    room[room_choice].add_items_to_room(items[item_choice])
+
 #
 # Main
 #
@@ -53,42 +69,11 @@ room['treasure'].s_to = room['narrow']
 # If the user enters "q", quit the game.
 
 
-@pretty_print
-def print_location(cur_room):
-    pass
-
-
-def moves(user, move):
-    if move == 'n':
-        return user.room.n_to
-    elif move == 's':
-        return user.room.s_to
-    elif move == 'w':
-        return user.room.w_to
-    else:
-        return user.room.e_to
-
-
 def main():
     player_name = input('Please enter your name-> ')
     player = Player(player_name, room['outside'])
-    print(f'Welcome {player_name} to the Dungeon Crawl')
-    while True:
-        # Print
-        print_location(player.room)
-        cmd = input('-> ')
-        if cmd == 'q':
-            print('Come back again, you hear!')
-            break
-        elif cmd == 'n' or cmd == 's' or cmd == 'w' or cmd == 'e':
-            if moves(player, cmd) is None:
-                print('You hit a wall, move not allowed, -50dkp')
-                continue
-            else:
-                player.room = moves(player, cmd)
-        else:
-            print('Please enter a valid direction: n,s,w,e')
-            continue
+    game = Game(room, player)
+    game.main()
 
 
 if __name__ == '__main__':
